@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import express from 'express';
 
 const app = express();
@@ -16,12 +17,22 @@ const holidays = [
   { date: "12/25/2022", name: "Natal" }
 ];
 
-const hoje = new Date();
-console.log(hoje.toLocaleDateString()); // 1/1/2022
+// 1/1/2022
 
 app.get('/is-today-holiday', (req, res) => {
-  //fazer verificacoes e ver a posicao do array onde as datas batem..., não deu tempo..,..
-  res.send(holidays);
+    
+    const hoje = new Date().toLocaleDateString(); 
+
+    const isHoliday = holidays.find(day=>day.date ===hoje);
+
+    if (isHoliday) {
+        res.send(console.log(`Sim, hoje é ${isHoliday.name}`));
+        
+    } else {
+        res.send(console.log("Nao é feriado"));
+    }
+
+    //res.send();
 });
 
 app.get('/holidays', (req, res) => {
@@ -30,4 +41,6 @@ app.get('/holidays', (req, res) => {
 
 
 
-app.listen(5000);
+app.listen(5002, ()=>{
+    console.log(chalk.bold.yellow("ola o server ta indo"));
+});
